@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/supplier/create', [SupplierController::class, 'create'])->name('supplier-create');
     Route::post('/supplier', [SupplierController::class, 'store'])->name('supplier-store');
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
-
+    Route::get('/product/{id}', [ProductController::class, 'show'])->name('product-detail');
     
 });
 
