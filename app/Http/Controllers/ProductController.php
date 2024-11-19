@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductsExport;
 use App\Models\Product;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -109,5 +113,8 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
         return redirect()->back()->with('succes', 'Product deleted successfully!');
+    }
+    public function exportExcel(){
+        return Excel::download(new ProductsExport, 'product.xlsx');
     }
 }

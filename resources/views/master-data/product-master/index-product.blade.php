@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-
-
     <div class="container p-4 mx-auto">
         <div class="overflow-x-auto">
             <a href="{{ route('product-create')}}">
@@ -15,10 +13,20 @@
                     Add product data
                 </button>
             </a>
+            <a href="{{ route('product.export.excel')}}">
+                <button
+                    class="px-6 py-4 text-white bg-green-500 border border-green-500 rounded-lg shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    Export to Excel
+                </button>
+            </a>
             <div class="flex mt-4">
                 <form action="{{route('product.index')}}" method="get">
-                    <input class="w-1/4 rounded-lg border border-gray-300 py-2 focus:outline-none focus:ring-3 focus:ring-green-500" type="text" name="search" value="{{request('search')}}" placeholder="Cari product...">
-                    <button class="ml-2 rounded-lg bg-green-500 px-4 py-2 text-white shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500" type="submit">Cari</button>
+                    <input
+                        class="w-100 rounded-lg border border-gray-300 py-2 focus:outline-none focus:ring-3 focus:ring-green-500"
+                        type="text" name="search" value="{{request('search')}}" placeholder="Cari product...">
+                    <button
+                        class="ml-2 rounded-lg bg-green-500 px-4 py-2 text-white shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        type="submit">Cari</button>
                 </form>
             </div>
             <x-auth-session-status class="mb-4" :status="session('success')" />
@@ -56,7 +64,7 @@
                                     onclick="confirmDelete({{ $item->id }}, '{{ route('product-delete', $item->id) }}')">Delete</button>
                             </td>
                         </tr>
-                        @empty
+                    @empty
                         <p class="mb-4 text-center text-2xl font-bold text-red-600">No Products Found</p>
                     @endforelse
 
