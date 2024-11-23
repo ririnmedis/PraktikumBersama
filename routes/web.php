@@ -4,7 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Excel;
+use App\Http\Controllers\Pdf;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('product-detail');
     Route::get('/product/export/excel', [ProductController::class, 'exportExcel'])->name('product.export.excel');
+    Route::get('/product/export/pdf', [ProductController::class, 'generatePDF'])->name('product.export.pdf');
+    
 });
 
 

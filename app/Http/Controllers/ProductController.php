@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\ProductsExport;
 use App\Models\Product;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validasi_data =$request->validate([
+        $validasi_data = $request->validate([
             'product_name' => 'required|string|max:255',
             'unit' => 'required|string|max:50',
             'type' => 'required|string|max:50',
@@ -52,10 +53,10 @@ class ProductController extends Controller
             'qty' => 'required|integer',
             'producer' => 'required|string|max:255',
         ]);
-        
-     $product = Product::create($validasi_data);
-     return redirect()->route("product.index")->with('success', 'product created successfully!');
-    
+
+        $product = Product::create($validasi_data);
+        return redirect()->route("product.index")->with('success', 'product created successfully!');
+
     }
 
     /**
@@ -114,7 +115,19 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->back()->with('succes', 'Product deleted successfully!');
     }
-    public function exportExcel(){
+    public function exportExcel()
+    {
         return Excel::download(new ProductsExport, 'product.xlsx');
+    }
+
+    public function generatePDF()
+    {
+        $data = Product::all(); // Semua data diambil
+        $isPDF = true; // Menandakan mode PDF
+
+        $pdf = PDF::loadView('master-data.product-master.pdf', compact('data', 'isPDF'))
+            ->setPaper('a4', 'portrait'); // Atur ukuran dan orientasi kertas
+
+        return $pdf->download('product-report.pdf');
     }
 }
