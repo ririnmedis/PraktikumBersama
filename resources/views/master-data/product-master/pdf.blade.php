@@ -8,12 +8,11 @@
             border-collapse: collapse;
         }
         th, td {
-            border: 1px solid #000;
+            border: 1px solid black;
             padding: 8px;
-            text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #f4f4f4;
         }
     </style>
 </head>
@@ -35,7 +34,7 @@
             @foreach ($data as $product)
                 <tr>
                     <td>{{ $product->id }}</td>
-                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->product_name }}</td>
                     <td>{{ $product->unit }}</td>
                     <td>{{ $product->type }}</td>
                     <td>{{ $product->information }}</td>
@@ -47,3 +46,4 @@
     </table>
 </body>
 </html>
+ 

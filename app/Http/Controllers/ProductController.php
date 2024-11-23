@@ -130,4 +130,5 @@ class ProductController extends Controller
 
         return $pdf->download('product-report.pdf');
     }
+    
 }
