@@ -28,6 +28,8 @@
                 <th>Information</th>
                 <th>Qty</th>
                 <th>Producer</th>
+                <th>Supplier Name</th>
+                <th> Action </th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +42,9 @@
                     <td>{{ $product->information }}</td>
                     <td>{{ $product->quantity }}</td>
                     <td>{{ $product->producer }}</td>
+                    <td>{{ $product->Supplier_name}}</td>
+                    <td>{{ $product->Action }}</td>
+
                 </tr>
             @endforeach
         </tbody>

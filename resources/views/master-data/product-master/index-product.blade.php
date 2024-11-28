@@ -97,7 +97,9 @@
                         <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Information</th>
                         <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Qty</th>
                         <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Producer</th>
-                    </tr>
+                        <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Supplier Name </th>
+                        <th class="px-4 py-2 text-left text-gray-600 border border-gray-200">Action</th>
+                        </tr>
                 </thead>
                 <tbody>
                     @forelse ($data as $item)
@@ -109,10 +111,17 @@
                             <td class="px-4 py-2 border border-gray-200">{{ $item->information }}</td>
                             <td class="px-4 py-2 border border-gray-200">{{ $item->qty }}</td>
                             <td class="px-4 py-2 border border-gray-200">{{ $item->producer }}</td>
+                            <td class="px-4 py-2 border border-gray-200">
+                                {{ $item->supplier?->supplier_name ?? '-' }}
+                            </td>
+                            <td class="px-4 py-2 border border-gray-200">
+                                <a href="{{ route('product-edit', $item->id) }}" class="px-2 text-blue-600 hover:text-blue-800">Edit</a>
+                                <button class="px-2 text-red-600 hover:text-red-800" onclick="confirmDelete(id)">Hapus</button>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-red-600 font-bold">No Products Found</td>
+                            <td colspan="8" class="text-center text-red-600 font-bold">No Products Found</td>
                         </tr>
                     @endforelse
                 </tbody>

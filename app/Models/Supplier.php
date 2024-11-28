@@ -11,9 +11,15 @@ class Supplier extends Model
 
     // Tentukan atribut yang dapat diisi
     protected $fillable = [
-        'supplier_name',
-        'supplier_address',
-        'phone',
-        'comment',
+        'supplier_name',     // Nama supplier
+        'supplier_address',  // Alamat supplier
+        'phone',             // Nomor telepon supplier
+        'comment',           // Komentar tambahan
     ];
+
+    // Relasi dengan model Product
+    public function products()
+    {
+        return $this->hasMany(Product::class); // Relasi one-to-many
+    }
 }

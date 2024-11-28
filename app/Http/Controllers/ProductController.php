@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Exports\ProductsExport;
 use App\Models\Product;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\supplier;
+
 use PDF;
 
 
@@ -17,18 +19,15 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        //mengambil data dari database melalui model product,
-        //fungsi all() sama seperti SELECT * FROM
-        // $data = Product::paginate(2);
-        // return view("master-data.product-master.index-product", compact('data'));
-        $query = Product::query();
+        $query = Product::query()->with('supplier');
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('product_name', 'like', '%' . $search . '%');
             });
         }
-        $data = $query->paginate(2);
+        $data = $query->paginate(10);
+        // return $data;
         return view("master-data.product-master.index-product", compact('data'));
     }
 
@@ -37,7 +36,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view("master-data.product-master.create-product");
+        $suppliers = Supplier::all();
+        // dd($suppliers);
+        return view('master-data.product-master.create-product', compact('suppliers'));
     }
 
     /**
@@ -52,6 +53,7 @@ class ProductController extends Controller
             'information' => 'nullable|string',
             'qty' => 'required|integer',
             'producer' => 'required|string|max:255',
+            'supplier_id' => 'required|exists:suppliers,id',
         ]);
 
         $product = Product::create($validasi_data);
@@ -74,7 +76,8 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::findOrFail($id);
-        return view('master-data.product-master.edit-product', compact('product'));
+        $suppliers = Supplier::all();
+        return view('master-data.product-master.edit-product', compact('product', 'suppliers'));
     }
 
     /**
@@ -89,6 +92,8 @@ class ProductController extends Controller
             'information' => 'nullable|string',
             'qty' => 'required|integer|min:1',
             'producer' => 'required|string|max:255',
+            'supplier_id' => 'required|string|max:255',
+            
 
         ]);
 
@@ -100,7 +105,7 @@ class ProductController extends Controller
             'information' => $request->information,
             'qty' => $request->qty,
             'producer' => $request->producer,
-
+            'supplier_id' => $request->supplier_id,
         ]);
 
         return redirect()->back()->with('succes', 'Product update successfully!');
@@ -130,5 +135,6 @@ class ProductController extends Controller
 
         return $pdf->download('product-report.pdf');
     }
+    
     
 }
